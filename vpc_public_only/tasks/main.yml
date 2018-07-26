@@ -1,2 +1,36 @@
 ---
 # tasks file for vpc_public_only
+
+- name: Create VPC
+  ec2_vpc_net:
+
+  register: my_vpc
+
+- name: Get VPC ID and save it in a varaible
+  set_fact:
+    vpc_id: "{{my_vpc.vpc.id}}"
+   
+- name: Create Public subnet
+  ec2_vpc_subnet:
+
+  register: my_public_subnet
+
+- name: Get Public subnet ID and save it in a variable
+  set_fact:
+    public_subnet_id: "{{my_public_subnet.subnet.id}}"
+
+- name: Create Internet Gateway to access internet from VPC
+  ec2_vpc_igw: 
+
+  register: my_vpc_igw
+
+- name: Get IGW ID and save it in a variable
+  set_fact:
+    igw_id: "{{my_vpc_igw.gateway_id}}"
+
+- name: Create route table for Public subnet
+  ec2_vpc_route_table:
+
+- name: Create main Security Group
+  ec2_group:
+
